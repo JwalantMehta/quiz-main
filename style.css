@@ -1,6 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;200;300;400;500;600;700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Poppins:wght@100;200;300;400;500;600;700&family=Titillium+Web:wght@200;300;400;600;700;900&display=swap');
 
 
+/* theme:-
+    Background: Light gray (#f5f5f5);
+    Text (Title): Dark blue (#073b4c);
+    Text (Subtitle): Medium blue (#3da9fc);
+    Text (Description): Dark gray (#333333);
+    Button Background: Medium blue (#3da9fc);
+    Button Text: White (#ffffff);
+    onhover of button, interchanges the color & background;
+    footer background: Dark blue (#073b4c);
+*/
+
 * {
     margin: 0;
     padding: 0;
@@ -24,9 +35,6 @@ html {
     scroll-behavior: smooth;
 }
 
-
-
-
 header {
     display: flex;
     position: fixed;
@@ -38,8 +46,7 @@ header {
     justify-content: space-between;
     padding: 1rem 6rem;
     transition: all 0.40s ease;
-
-
+    background: linear-gradient(to right, #3da9fc , #8ad3ff);
 
     .logo {
         display: flex;
@@ -54,7 +61,7 @@ header {
 
     .navbar ul li {
         position: relative;
-        ;
+        
         float: left;
         /* padding: 0.1rem 2.2rem;  */
     }
@@ -62,7 +69,7 @@ header {
     .navbar ul li a {
         font-size: 2rem;
         font-weight: 500;
-        color: #f66962;
+        color: white;
         padding: 0 1.5rem;
         display: block;
         transition: all 0.3s linear;
@@ -103,7 +110,8 @@ header {
             display: flex;
             font-size: 2rem;
             align-items: center;
-            color: #f66962;
+            /* color: #f66962; */
+            color: white;
             transition: all 0.40s ease;
 
             &:hover {
@@ -116,7 +124,7 @@ header {
     }
 }
 
-header.sticky {
+/* header.sticky {
     background: linear-gradient(to right, #00093c, #2d0b00);
     box-shadow: 0rem 0.4rem 1.5rem rgb(0 0 0 / 8%);
     transition: all 0.3s linear;
@@ -139,41 +147,42 @@ header.sticky {
         }
     }
 
-}
+} */
 
 .home {
-    padding: 12rem 16rem 4rem 16rem;
+    padding: 12em 16em 4em 16em;
     position: relative;
-    height: 100vh;
+    height: 100%;
     width: 100%;
     /* background: linear-gradient( #d8e2dc,#ffe5d9,#d8e2dc); */
+    background-color: #f5f5f5;
     display: flex;
     justify-content: space-around;
     align-items: center;
     gap: 1rem;
     overflow-x: hidden;
-
+    overflow-y: hidden;
 
     .home-text {
         /* transform: translateX(-100%); */
         transition: 1s;
 
         h6 {
-            font-size: 2rem;
-            color: #f66962;
+            font-size: 2.5em;
+            color: #3da9fc;
             font-weight: 600;
             letter-spacing: 0.2rem;
         }
 
         h1 {
-            font-size: 4rem;
+            font-size: 5em;
             margin: 1.5rem 0;
-            color: #22100d;
+            color: #073b4c;
         }
 
         p {
-            color: #008080;
-            font-size: 1.8rem;
+            color: #333333;
+            font-size: 1.8em;
             font-weight: 500;
             margin-bottom: 4rem;
         }
@@ -181,17 +190,17 @@ header.sticky {
         .btn {
             height: 3.7rem;
             width: 11rem;
-            border: 0.1rem solid #f66962;
+            border: 0.1rem solid #3da9fc;
             border-radius: 0.6rem;
             font-size: 1.8rem;
-            background-color: #f66962;
+            background-color: #3da9fc;
             color: white;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
 
             &:hover {
-                color: #e91640;
+                color: #3da9fc;
                 background-color: #f1f5f9;
 
             }
@@ -199,18 +208,45 @@ header.sticky {
 
     }
 
-
     .home-img {
-        /* transform: translateY(-100%); */
+        /* transform: translateY(-100%);  */
         transition: 1s;
         position: relative;
+        filter: drop-shadow(15px 15px 5px #3da9fc);
 
         img {
-            height: 42rem;
-            width: 42rem;
+            height: 30em;
+            width: 30em;
             mix-blend-mode: darken;
         }
     }
+}
+
+@media screen and (max-width: 768px) {
+    .home {
+        padding: 10% 5% 2% 5%;
+    }
+
+    .home-text h1 {
+        font-size: 4em;
+    }
+
+    /* Add more styles for smaller screens... */
+}
+
+@media screen and (max-zoom: 1.5) {
+    .home {
+        padding: 6% 5% 1% 5%;
+    }
+
+    .home-text h1 {
+        font-size: 3.5em;
+    }
+    body{
+        -ms-zoom: 150%;
+    }
+
+    /* Add more styles for smaller zoom levels... */
 }
 
 .show-animate .home-img {
@@ -218,26 +254,26 @@ header.sticky {
     mix-blend-mode: darken;
 }
 
-
 .show-animate .home-text {
     transform: translateX(-7%);
 }
 
 .sec-1 {
-
+    width: 100%;
+    /* background-color: #f5f5f5; */
     /* background: linear-gradient( #d8e2dc,#ffe5d9,#d8e2dc); */
     .heading {
         text-align: center;
-        font-size: 4rem;
-        margin-top: 6rem;
-        color: #f66962;
+        font-size: 4em;
+        margin-top: 6em;
+        color: #073b4c;
         /* transform: translateX(-100%); */
         transition: 1.2s linear;
 
         span {
             text-align: center;
             font-size: 4rem;
-            color: #f66962;
+            color: #073b4c;
             transform: translateX(100%);
         }
     }
@@ -249,16 +285,16 @@ header.sticky {
         flex-wrap: wrap;
         align-items: center;
         justify-content: center;
-        margin: 2rem 0;
-        gap: 2rem;
+        margin: 2em 0;
+        gap: 2em;
         /* transform: translateX(100%); */
         transition: 1.2s linear;
 
 
 
         .box-1 {
-            height: 38rem;
-            width: 30rem;
+            height: 38em;
+            width: 30em;
             border: 0.1rem solid black;
             border-radius: 0.5rem;
             margin: 2rem 1rem;
@@ -295,18 +331,18 @@ header.sticky {
 
             h3 {
                 text-align: center;
-                font-size: 2rem;
+                font-size: 2em;
                 font-weight: 600;
-                margin: 1rem 0;
+                margin: 1em 0;
 
 
             }
 
             .content-1 {
                 display: flex;
-                justify-content: space-around;
+                justify-content: space-between;
                 align-items: center;
-                margin: 1rem 1.5rem;
+                margin: 1em 1.5em;
 
                 .question {
                     font-size: 1.2rem;
@@ -324,17 +360,17 @@ header.sticky {
                     .btn {
                         height: 3.4rem;
                         width: 9rem;
-                        border: 0.1rem solid #e91640;
+                        border: 0.1rem solid #3da9fc;
                         border-radius: 0.6rem;
                         font-size: 1.8rem;
-                        background-color: #e91640;
+                        background-color: #3da9fc;
                         color: white;
                         font-weight: 700;
                         cursor: pointer;
                         transition: all 0.3s;
 
                         &:hover {
-                            color: #e91640;
+                            color: #3da9fc;
                             background-color: #f1f5f9;
 
                         }
@@ -384,12 +420,12 @@ header.sticky {
 
 .sec-2 {
 
-
+    background-color: #f5f5f5;
     .heading {
         margin-top: 6rem;
         text-align: center;
         font-size: 4rem;
-        color: #f66962;
+        color: #073b4c;
         /* transform: translateX(100%); */
         transition: 1.2s linear;
     }
@@ -409,11 +445,11 @@ header.sticky {
 
 
         .box-1 {
-            height: 38rem;
-            width: 30rem;
+            height: 38em;
+            width: 30em;
             border: 0.1rem solid black;
             border-radius: 0.5rem;
-            margin: 1rem 1rem 2rem 1rem;
+            margin: 1em 1em 2em 1em;
             overflow: hidden;
             background-color: white;
 
@@ -476,17 +512,17 @@ header.sticky {
                     .btn {
                         height: 3.4rem;
                         width: 9rem;
-                        border: 0.1rem solid #e91640;
+                        border: 0.1rem solid #3da9fc;
                         border-radius: 0.6rem;
                         font-size: 1.8rem;
-                        background-color: #e91640;
+                        background-color: #3da9fc;
                         color: white;
                         font-weight: 700;
                         cursor: pointer;
                         transition: all 0.3s;
 
                         &:hover {
-                            color: #e91640;
+                            color: #3da9fc;
                             background-color: #f1f5f9;
 
                         }
@@ -536,11 +572,12 @@ header.sticky {
 
 .sec-3 {
 
+    /* background-color: #f5f5f5; */
     .heading {
         margin-top: 6rem;
         text-align: center;
         font-size: 4rem;
-        color: #f66962;
+        color: #073b4c;
         transform: translateX(-100%);
         transition: 1.2s linear;
     }
@@ -627,17 +664,17 @@ header.sticky {
                     .btn {
                         height: 3.4rem;
                         width: 9rem;
-                        border: 0.1rem solid #e91640;
+                        border: 0.1rem solid #3da9fc;
                         border-radius: 0.6rem;
                         font-size: 1.8rem;
-                        background-color: #e91640;
+                        background-color: #3da9fc;
                         color: white;
                         font-weight: 700;
                         cursor: pointer;
                         transition: all 0.3s;
 
                         &:hover {
-                            color: #e91640;
+                            color: #3da9fc;
                             background-color: #f1f5f9;
 
                         }
@@ -686,13 +723,14 @@ header.sticky {
 }
 
 .sec-4 {
+    background-color: #f5f5f5;
 
     .heading {
         margin-top: 6rem;
         text-align: center;
         font-size: 4rem;
         transform: translateX(100%);
-        color: #f66962;
+        color: #073b4c;
         transition: 1.2s linear;
     }
 
@@ -778,17 +816,17 @@ header.sticky {
                     .btn {
                         height: 3.4rem;
                         width: 9rem;
-                        border: 0.1rem solid #e91640;
+                        border: 0.1rem solid #3da9fc;
                         border-radius: 0.6rem;
                         font-size: 1.8rem;
-                        background-color: #e91640;
+                        background-color: #3da9fc;
                         color: white;
                         font-weight: 700;
                         cursor: pointer;
                         transition: all 0.3s;
 
                         &:hover {
-                            color: #e91640;
+                            color: #3da9fc;
                             background-color: #f1f5f9;
 
                         }
@@ -861,6 +899,10 @@ header.sticky {
     transform: translateX(0);
 } */
 
+
+
+
+/* on click of start quiz button located in the card view */
 
 .home-2 {
 
@@ -1512,7 +1554,8 @@ header.sticky {
 footer {
     width: 100%;
     bottom: 0;
-    background: linear-gradient(to right, #00093c, #2d0b00);
+    /* background: linear-gradient(to right, #00093c, #2d0b00); */
+    background: #073b4c;
     color: #fff;
     padding: 5rem 0rem 5rem 0rem;
     /* border-top-left-radius: 12.5rem; */

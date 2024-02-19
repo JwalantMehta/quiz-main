@@ -1,5 +1,8 @@
+// INITIAL CALL FOR EXECUTION IS AT loadQuestion() FUNCTION. LINE 385.
+
 const header = document.querySelector("header");
 
+// to make the header sticky
 window.addEventListener("scroll", function () {
   header.classList.toggle("sticky", window.scrollY > 0);
 });
@@ -289,7 +292,6 @@ let jsQuestions = [
 ];
 
 let index = 0;
-
 let total = HTMLquestions.length;
 let correct = 0;
 let incorrect = 0;
@@ -301,39 +303,68 @@ const loadQuestions = () => {
     return endQuiz();
   }
 
+  // here the when last question comes, the next button text changes to submit.
   if (index === total - 1) {
     document.getElementById(
       "btn"
     ).innerHTML = `<h4 id="kunj" onclick=stopTime()>submit</h4>`;
   }
-  reset();
-  const data = HTMLquestions[index];
-  quesBox.innerText = `${index + 1}) ${data.question}`;
-  optionInputs[0].nextElementSibling.innerText = data.a;
-  optionInputs[1].nextElementSibling.innerText = data.b;
-  optionInputs[2].nextElementSibling.innerText = data.c;
-  optionInputs[3].nextElementSibling.innerText = data.d;
-  console.log(data);
+
+  try {
+    reset(); // this is needed to uncheck the readio button after each question.
+
+    //below 2 lines are responsible for loading the questions.
+    const data = HTMLquestions[index];
+    quesBox.innerText = `${index + 1}) ${data.question}`;
+
+    //below 4 lines are responsible for loading the options.
+    optionInputs[0].nextElementSibling.innerText = data.a;
+    optionInputs[1].nextElementSibling.innerText = data.b;
+    optionInputs[2].nextElementSibling.innerText = data.c;
+    optionInputs[3].nextElementSibling.innerText = data.d;
+    // console.log(data);
+  } catch (error) {
+    console.error("Error in loadQuestions:", error.message);
+  }
 };
+
+// Add an event listener to the "Skip" button
+document.getElementById("skipBtn").addEventListener("click", () => {
+  // Check if the current question index is not the last question
+  if (index < total - 1) {
+    // Increment the question index to move to the next question
+    index++;
+    // Load the next question
+    loadQuestions();
+  }
+});
+
 
 const nextQuiz = () => {
-  const data = HTMLquestions[index];
-  const ans = getAnswer();
+  try {
 
-  ans == data.correct ? correct++ : incorrect++;
+    const ans = getAnswer();
+    if (!ans) {
+      // Display an alert indicating that the user needs to select an answer
+      alert("Please select an answer before moving to the next question or else press skip.");
+      return;
+    }
 
-  // if(ans == data.correct){
-  //     correct++;
-  // }
-  // else{
-  //     incorrect++;
-  // }
+    //here we will handle that which quiz is to be loaded.
+    const data = HTMLquestions[index];
+    // const ans = getAnswer();
 
-  index++;
-  loadQuestions();
-  return;
+    // below line makes the decision that if the user has selected the answer or not.
+    ans == data.correct ? correct++ : incorrect++;
+    index++;
+    loadQuestions();
+    return;
+  } catch (error) {
+    console.error("Error in nextQuiz:", error.message);
+  }
 };
 
+// this function is used to get the selected answer of the user.
 const getAnswer = () => {
   let answer;
   optionInputs.forEach((input) => {
@@ -344,13 +375,26 @@ const getAnswer = () => {
   return answer;
 };
 
+// to uncheck all radio button values.
+//NOTE:- THIS SHOULD BE BELOW getAnswer() FUNCTION.
 const reset = () => {
   optionInputs.forEach((input) => {
     input.checked = false;
   });
 };
 
+// this function is called when the user clicks on the submit button.
 const endQuiz = () => {
+
+  const unansweredQuestions = HTMLquestions.filter(question => !getAnsweredQuestions().includes(question));
+  
+  if (unansweredQuestions.length > 0) {
+    // Display error message or handle the situation where not all questions are answered
+    const unansweredQuestionNumbers = unansweredQuestions.map(question => HTMLquestions.indexOf(question) + 1);
+    alert(`Please answer all questions before submitting the quiz. Unanswered questions: ${unansweredQuestionNumbers.join(", ")}`);
+    return;
+  }
+
   document.getElementById("quesBox").innerHTML = `<h2>result</h2>`;
   document.getElementById(
     "btn"
@@ -367,15 +411,27 @@ const endQuiz = () => {
   document.getElementById("end-1").style.textAlign = "center";
 };
 
-//initial call
+
+// Function to get answered questions
+const getAnsweredQuestions = () => {
+  const answeredQuestions = [];
+  HTMLquestions.forEach(question => {
+    if (getAnswer(question)) {
+      answeredQuestions.push(question);
+    }
+  });
+  return answeredQuestions;
+};
+
+//initial call. all the execution starts from here.
 loadQuestions();
 
 const startingTime = 1;
 let time = startingTime * 60;
 let is_examover = false;
-
 const countdown = document.getElementById("countdown");
 
+// setInterval() is used to set the max time limit for the quiz.
 setInterval(update, 1000);
 
 function update() {

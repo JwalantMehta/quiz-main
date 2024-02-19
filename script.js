@@ -339,14 +339,29 @@ document.getElementById("skipBtn").addEventListener("click", () => {
   }
 });
 
-
 const nextQuiz = () => {
   try {
-
     const ans = getAnswer();
     if (!ans) {
       // Display an alert indicating that the user needs to select an answer
-      alert("Please select an answer before moving to the next question or else press skip.");
+      alert(
+        "Please select an answer before moving to the next question or else press skip."
+      );
+      return;
+    }
+
+    if (time <= 0) {
+      //here we will handle the situation when the time is up.
+
+      document.getElementById("btn").innerText = `submit`;
+
+      setTimeout(() => {
+        alert(
+          "Time's up! You cannot answer any more questions................."
+        );
+      });
+
+      // alert("hii");
       return;
     }
 
@@ -385,13 +400,20 @@ const reset = () => {
 
 // this function is called when the user clicks on the submit button.
 const endQuiz = () => {
+  const unansweredQuestions = HTMLquestions.filter(
+    (question) => !getAnsweredQuestions().includes(question)
+  );
 
-  const unansweredQuestions = HTMLquestions.filter(question => !getAnsweredQuestions().includes(question));
-  
   if (unansweredQuestions.length > 0) {
     // Display error message or handle the situation where not all questions are answered
-    const unansweredQuestionNumbers = unansweredQuestions.map(question => HTMLquestions.indexOf(question) + 1);
-    alert(`Please answer all questions before submitting the quiz. Unanswered questions: ${unansweredQuestionNumbers.join(", ")}`);
+    const unansweredQuestionNumbers = unansweredQuestions.map(
+      (question) => HTMLquestions.indexOf(question) + 1
+    );
+    alert(
+      `Please answer all questions before submitting the quiz. Unanswered questions: ${unansweredQuestionNumbers.join(
+        ", "
+      )}`
+    );
     return;
   }
 
@@ -411,11 +433,10 @@ const endQuiz = () => {
   document.getElementById("end-1").style.textAlign = "center";
 };
 
-
 // Function to get answered questions
 const getAnsweredQuestions = () => {
   const answeredQuestions = [];
-  HTMLquestions.forEach(question => {
+  HTMLquestions.forEach((question) => {
     if (getAnswer(question)) {
       answeredQuestions.push(question);
     }
@@ -426,35 +447,62 @@ const getAnsweredQuestions = () => {
 //initial call. all the execution starts from here.
 loadQuestions();
 
-const startingTime = 1;
-let time = startingTime * 60;
-let is_examover = false;
-const countdown = document.getElementById("countdown");
+const startingTime = 0.1; // Time limit in minutes
+let time = startingTime * 60; // Convert minutes to seconds
+let countdownInterval; // Interval variable for countdown timer
 
-// setInterval() is used to set the max time limit for the quiz.
-setInterval(update, 1000);
-
-function update() {
-  const minutes = Math.floor(time / 60);
-  let seconds = time % 60;
-  if ((minutes === 0 && seconds === 0) || is_examover) {
-    countdown.innerHTML = `0:00`;
-    return;
-  }
-  seconds = seconds < 10 ? "0" + seconds : seconds;
-
-  countdown.innerHTML = `${minutes}:${seconds}`;
-
-  time--;
+// Function to update countdown timer
+function updateCountdown() {
+  countdownInterval = setInterval(() => {
+    if (time > 0) {
+      const minutes = Math.floor(time / 60);
+      const seconds = time % 60;
+      countdown.innerHTML = `${minutes}:${
+        seconds < 10 ? "0" + seconds : seconds
+      }`;
+      time--;
+    } else {
+      clearInterval(countdownInterval);
+      is_examover = true;
+      // Handle the case when the time limit is reached
+      endQuiz();
+    }
+  }, 1000); // Update every second
 }
 
-function stopTime() {
-  const time = 0;
-  const minutes = Math.floor(time / 60);
-  let seconds = time % 60;
+// Start the countdown timer
+updateCountdown();
 
-  if (minutes === 0 && seconds === 0) {
-    is_examover = true;
-    return (countdown.innerHTML = `0:00`);
-  }
-}
+// const startingTime = 1;
+// let time = startingTime * 60;
+// let is_examover = false;
+// const countdown = document.getElementById("countdown");
+
+// // setInterval() is used to set the max time limit for the quiz & decrement the time.
+// setInterval(update, 1000);
+
+// function update() {
+
+//   const minutes = Math.floor(time / 60);
+//   let seconds = time % 60;
+//   if ((minutes === 0 && seconds === 0) || is_examover) {
+//     countdown.innerHTML = `0:00`;
+//     return;
+//   }
+//   seconds = seconds < 10 ? "0" + seconds : seconds;
+
+//   countdown.innerHTML = `${minutes}:${seconds}`;
+
+//   time--;
+// }
+
+// function stopTime() {
+//   const time = 0;
+//   const minutes = Math.floor(time / 60);
+//   let seconds = time % 60;
+
+//   if (minutes === 0 && seconds === 0) {
+//     is_examover = true;
+//     return (countdown.innerHTML = `0:00`);
+//   }
+// }

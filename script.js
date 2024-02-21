@@ -223,6 +223,23 @@ const reset = () => {
   });
 };
 
+function selectQuestion(questionNumber) {
+  var questionContainers = document.querySelectorAll(".num");
+  questionContainers.forEach(function () {
+    
+      const data = HTMLquestions[questionNumber];
+
+      quesBox.innerText = `${questionNumber + 1}) ${data.question}`;
+
+      //below 4 lines are responsible for loading the options.
+      optionInputs[0].nextElementSibling.innerText = data.a;
+      optionInputs[1].nextElementSibling.innerText = data.b;
+      optionInputs[2].nextElementSibling.innerText = data.c;
+      optionInputs[3].nextElementSibling.innerText = data.d;
+    
+  });
+}
+
 // this function is called when the user clicks on the submit button.
 const endQuiz = () => {
   const unansweredQuestions = HTMLquestions.filter(
@@ -337,8 +354,6 @@ updateCountdown();
 //         }
 //     });
 
-    
-    
 //     function nextQuiz() {
 //         try {
 //             const ans = getAnswer();
@@ -364,8 +379,6 @@ updateCountdown();
 //             console.error("Error in nextQuiz:", error.message);
 //         }
 //     }
-
-    
 
 //     function getAnswer() {
 //         let answer;

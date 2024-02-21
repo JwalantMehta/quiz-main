@@ -157,6 +157,17 @@ const loadQuestions = () => {
 document.getElementById("skipBtn").addEventListener("click", () => {
   // Check if the current question index is not the last question
   if (index < total - 1) {
+    const data = HTMLquestions[index];
+    const num = document.getElementsByClassName("number");
+    Array.from(num).forEach((element, index) => {
+
+      if (index === HTMLquestions.indexOf(data)) {
+        element.style.backgroundColor = "skyblue";
+
+        console.log("index", index);
+      }
+     
+    });
     // Increment the question index to move to the next question
     index++;
     // Load the next question
@@ -196,7 +207,14 @@ const nextQuiz = () => {
 
     // below line makes the decision that if the user has selected the answer or not.
     ans == data.correct ? correct++ : incorrect++;
-    index++;
+    const num = document.getElementsByClassName("number");
+    Array.from(num).forEach((element, index) => {
+      if (index === HTMLquestions.indexOf(data)) {
+        element.style.backgroundColor = "lightgreen";
+        console.log("index", index);
+      }
+    });
+    index++;  
     loadQuestions();
     return;
   } catch (error) {
@@ -216,7 +234,7 @@ const getAnswer = () => {
 };
 
 // to uncheck all radio button values.
-//NOTE:- THIS SHOULD BE BELOW getAnswer() FUNCTION.
+
 const reset = () => {
   optionInputs.forEach((input) => {
     input.checked = false;
@@ -226,17 +244,16 @@ const reset = () => {
 function selectQuestion(questionNumber) {
   var questionContainers = document.querySelectorAll(".num");
   questionContainers.forEach(function () {
-    
-      const data = HTMLquestions[questionNumber];
+    index = questionNumber;
+    const data = HTMLquestions[questionNumber];
+    quesBox.innerText = `${questionNumber + 1}) ${data.question}`;
 
-      quesBox.innerText = `${questionNumber + 1}) ${data.question}`;
+    //below 4 lines are responsible for loading the options.
+    optionInputs[0].nextElementSibling.innerText = data.a;
+    optionInputs[1].nextElementSibling.innerText = data.b;
+    optionInputs[2].nextElementSibling.innerText = data.c;
+    optionInputs[3].nextElementSibling.innerText = data.d;
 
-      //below 4 lines are responsible for loading the options.
-      optionInputs[0].nextElementSibling.innerText = data.a;
-      optionInputs[1].nextElementSibling.innerText = data.b;
-      optionInputs[2].nextElementSibling.innerText = data.c;
-      optionInputs[3].nextElementSibling.innerText = data.d;
-    
   });
 }
 
@@ -315,130 +332,3 @@ function updateCountdown() {
 // Start the countdown timer
 updateCountdown();
 
-// const quizModule = (function(HTMLquestions) {
-//     let index = 0;
-//     let total = HTMLquestions.length;
-//     let correct = 0;
-//     let incorrect = 0;
-//     const quesBox = document.getElementById("quesBox");
-//     const optionInputs = document.querySelectorAll(".options");
-
-//     function loadQuestions() {
-//         if (index === total) {
-//             return endQuiz();
-//         }
-
-//         if (index === total - 1) {
-//             document.getElementById("btn").innerHTML = `<h4 id="kunj" onclick=stopTime()>submit</h4>`;
-//         }
-
-//         try {
-//             reset();
-
-//             const data = HTMLquestions[index];
-//             quesBox.innerText = `${index + 1}) ${data.question}`;
-
-//             optionInputs[0].nextElementSibling.innerText = data.a;
-//             optionInputs[1].nextElementSibling.innerText = data.b;
-//             optionInputs[2].nextElementSibling.innerText = data.c;
-//             optionInputs[3].nextElementSibling.innerText = data.d;
-//         } catch (error) {
-//             console.error("Error in loadQuestions:", error.message);
-//         }
-//     }
-
-//     document.getElementById("skipBtn").addEventListener("click", () => {
-//         if (index < total - 1) {
-//             index++;
-//             loadQuestions();
-//         }
-//     });
-
-//     function nextQuiz() {
-//         try {
-//             const ans = getAnswer();
-//             if (!ans) {
-//                 alert("Please select an answer before moving to the next question or else press skip.");
-//                 return;
-//             }
-
-//             if (time <= 0) {
-//                 document.getElementById("btn").innerText = `submit`;
-//                 setTimeout(() => {
-//                     alert("Time's up! You cannot answer any more questions.................");
-//                 });
-//                 return;
-//             }
-
-//             const data = HTMLquestions[index];
-//             ans == data.correct ? correct++ : incorrect++;
-//             index++;
-//             loadQuestions();
-//             return;
-//         } catch (error) {
-//             console.error("Error in nextQuiz:", error.message);
-//         }
-//     }
-
-//     function getAnswer() {
-//         let answer;
-//         optionInputs.forEach((input) => {
-//             if (input.checked) {
-//                 answer = input.value;
-//             }
-//         });
-//         return answer;
-//     }
-
-//     function reset() {
-//         optionInputs.forEach((input) => {
-//             input.checked = false;
-//         });
-//     }
-
-//     function endQuiz() {
-//         const unansweredQuestions = HTMLquestions.filter(
-//             (question) => !getAnsweredQuestions().includes(question)
-//         );
-
-//         if (unansweredQuestions.length > 0) {
-//             const unansweredQuestionNumbers = unansweredQuestions.map(
-//                 (question) => HTMLquestions.indexOf(question) + 1
-//             );
-//             alert(`Please answer all questions before submitting the quiz. Unanswered questions: ${unansweredQuestionNumbers.join(", ")}`);
-//             return;
-//         }
-
-//         document.getElementById("quesBox").innerHTML = `<h2>result</h2>`;
-//         document.getElementById("btn").innerHTML = `<a href="home.html"><h5 id="k">home page</h5></a>`;
-//         document.getElementById("btn").style.backgroundColor = "#008080";
-//         document.getElementById("k").style.color = "white";
-//         document.getElementById("box").innerHTML = `
-//             <div id="end-1">
-//             <h3> thankyou for participating in the quiz</h3>
-//             <h2> ${correct} / ${total} are correct</h2>
-//             <img src="images/img-31.png" height="100px" width="100px"/>
-//             </div>
-//         `;
-//         document.getElementById("end-1").style.textAlign = "center";
-//     }
-
-//     function getAnsweredQuestions() {
-//         const answeredQuestions = [];
-//         HTMLquestions.forEach((question) => {
-//             if (getAnswer(question)) {
-//                 answeredQuestions.push(question);
-//             }
-//         });
-//         return answeredQuestions;
-//     }
-
-//     // Call the loadQuestions function to initiate the quiz
-//     loadQuestions();
-
-//     return {
-//         loadQuestions,
-//         nextQuiz,
-//         endQuiz
-//     };
-// })(HTMLquestions);

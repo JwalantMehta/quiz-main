@@ -116,6 +116,8 @@ let HTMLquestions = [
   },
 ];
 
+
+
 let index = 0;
 let total = HTMLquestions.length;
 let correct = 0;
@@ -124,6 +126,7 @@ const quesBox = document.getElementById("quesBox");
 const optionInputs = document.querySelectorAll(".options");
 
 const loadQuestions = () => {
+
   if (index === total) {
     return endQuiz();
   }
@@ -195,6 +198,7 @@ const nextQuiz = () => {
         alert(
           "Time's up! You cannot answer any more questions................."
         );
+        endQuiz();
       });
 
       // alert("hii");
@@ -241,6 +245,8 @@ const reset = () => {
   });
 };
 
+
+// to iterate on the question number.
 function selectQuestion(questionNumber) {
   var questionContainers = document.querySelectorAll(".num");
   questionContainers.forEach(function () {
@@ -259,6 +265,7 @@ function selectQuestion(questionNumber) {
 
 // this function is called when the user clicks on the submit button.
 const endQuiz = () => {
+  restartCountdown(); // Restart the countdown timer
   const unansweredQuestions = HTMLquestions.filter(
     (question) => !getAnsweredQuestions().includes(question)
   );
@@ -292,6 +299,12 @@ const endQuiz = () => {
   document.getElementById("end-1").style.textAlign = "center";
 };
 
+
+// to select the radio button of the corresponding row.
+function selectRadio(optionId) {
+  document.getElementById(optionId).checked = true;
+}
+
 // Function to get answered questions
 const getAnsweredQuestions = () => {
   const answeredQuestions = [];
@@ -306,7 +319,8 @@ const getAnsweredQuestions = () => {
 //initial call. all the execution starts from here.
 loadQuestions();
 
-const startingTime = 10; // Time limit in minutes
+
+const startingTime = 100; // Time limit in minutes
 let time = startingTime * 60; // Convert minutes to seconds
 let countdownInterval; // Interval variable for countdown timer
 
@@ -319,6 +333,10 @@ function updateCountdown() {
       countdown.innerHTML = `${minutes}:${
         seconds < 10 ? "0" + seconds : seconds
       }`;
+
+      // Update local storage
+      localStorage.setItem('countdownTime', time);
+
       time--;
     } else {
       clearInterval(countdownInterval);
@@ -329,6 +347,62 @@ function updateCountdown() {
   }, 1000); // Update every second
 }
 
+// Function to restart countdown timer
+function restartCountdown() {
+  clearInterval(countdownInterval); // Clear existing interval
+  time = startingTime * 60; // Reset time to starting time
+  updateCountdown(); // Start the countdown again
+}
+
+// Load countdown time from local storage if available
+const storedCountdownTime = localStorage.getItem('countdownTime');
+if (storedCountdownTime) {
+  time = parseInt(storedCountdownTime);
+} else {
+  localStorage.setItem('countdownTime', time);
+}
+
 // Start the countdown timer
 updateCountdown();
+
+
+
+
+// const startingTime = 100; // Time limit in minutes
+// let time = startingTime * 60; // Convert minutes to seconds
+// let countdownInterval; // Interval variable for countdown timer
+
+// // Function to update countdown timer
+// function updateCountdown() {
+//   countdownInterval = setInterval(() => {
+//     if (time > 0) {
+//       const minutes = Math.floor(time / 60);
+//       const seconds = time % 60;
+//       countdown.innerHTML = `${minutes}:${
+//         seconds < 10 ? "0" + seconds : seconds
+//       }`;
+
+//       // Update local storage
+//       localStorage.setItem('countdownTime', time);
+
+//       time--;
+//     } else {
+//       clearInterval(countdownInterval);
+//       is_examover = true;
+//       // Handle the case when the time limit is reached
+//       endQuiz();
+//     }
+//   }, 1000); // Update every second
+// }
+
+// // Load countdown time from local storage if available
+// const storedCountdownTime = localStorage.getItem('countdownTime');
+// if (storedCountdownTime) {
+//   time = parseInt(storedCountdownTime);
+// } else {
+//   localStorage.setItem('countdownTime', time);
+// }
+
+// // Start the countdown timer
+// updateCountdown();
 

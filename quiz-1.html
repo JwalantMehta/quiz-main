@@ -25,7 +25,15 @@
               <div class="number" onclick="selectQuestion(7)">8</div>
               <div class="number" onclick="selectQuestion(8)">9</div>
               <div class="number" onclick="selectQuestion(9)">10</div>
+
             </div>
+
+            <div class="indentation">
+              <div class="answered"><strong>Answered Question are marked</strong>  <span class="color-box green"></span></div>
+              <div class="visited"><strong>Visited Question are marked </strong><span class="color-box blue"></span></div>
+              <div class="unvisited"><strong>Unvisited Question are marked</strong> <span class="color-box gray"></span></div>
+            </div>
+            
 
             <div class="desc">
               <h2>disclaimer</h2>
@@ -48,7 +56,7 @@
 
             <div class="main">
               <div id="box">
-                <div class="row">
+                <div class="row" onclick="selectRadio('option1')">
                   <input
                     class="options"
                     type="radio"
@@ -59,7 +67,7 @@
                   <label for="option1">option1</label>
                 </div>
 
-                <div class="row">
+                <div class="row" onclick="selectRadio('option2')">
                   <input
                     class="options"
                     type="radio"
@@ -70,7 +78,7 @@
                   <label for="option2">option2</label>
                 </div>
 
-                <div class="row">
+                <div class="row" onclick="selectRadio('option3')">
                   <input
                     class="options"
                     type="radio"
@@ -81,7 +89,7 @@
                   <label for="option3">option3</label>
                 </div>
 
-                <div class="row">
+                <div class="row" onclick="selectRadio('option4')">
                   <input
                     class="options"
                     type="radio"

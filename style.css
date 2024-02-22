@@ -1155,6 +1155,31 @@ header {
 
 .home-3 {
 
+    .indentation {
+        margin-left: 20px; /* Adjust as needed */
+        margin-bottom: 5px;
+      }
+      
+      .color-box {
+        display: inline-block;
+        width: 10px; /* Adjust width as needed */
+        height: 10px; /* Adjust height as needed */
+        margin-left: 5px; /* Adjust margin as needed */
+        vertical-align: middle; /* Align boxes vertically with text */
+      }
+      
+      .green {
+        background-color: lightgreen;
+      }
+      
+      .blue {
+        background-color: skyblue;
+      }
+      
+      .gray {
+        background-color: gray;
+      }
+      
     .container-3 {
         display: flex;
         align-items: center;
@@ -1192,7 +1217,7 @@ header {
                     flex-wrap: wrap;
                     gap: 1rem;
                     margin: 1rem 2rem;
-                    margin-bottom: 8rem;
+                    margin-bottom: 2rem;
                     padding: 0.3rem;
 
                     .number {

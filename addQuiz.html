@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Quiz Question</title>
+    <link rel="stylesheet" href="addQuiz.css" />
+  </head>
+  <body>
+    <h2>Add Quiz Question</h2>
+    <form id="quizForm">
+      <label for="category">SubCategory:</label>
+      <select id="category" name="category">
+        <option value="trending">HTML/CSS quiz</option>
+        <option value="trending">python Quiz</option>
+        <option value="history">Javascript Quiz</option>
+        <!-- Add more options for other categories -->
+      </select>
+      <label for="question">Question:</label>
+      <input type="text" id="question" name="question" required />
+      <label for="option1">Option 1:</label>
+      <input type="text" id="option1" name="option1" required />
+      <label for="option2">Option 2:</label>
+      <input type="text" id="option2" name="option2" required />
+      <label for="option3">Option 3:</label>
+      <input type="text" id="option3" name="option3" required />
+      <label for="option4">Option 4:</label>
+      <input type="text" id="option4" name="option4" required />
+      <label for="correctAnswer${questionCount}">Correct Answer:</label>
+      <select
+        id="correctAnswer${questionCount}"
+        name="correctAnswer${questionCount}"
+        required
+        >
+        <option value="">Select Correct Answer</option>
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+        <option value="option3">Option 3</option>
+        <option value="option4">Option 4</option>
+      </select>
+
+
+      <button type="button" onclick="addQuestion()">Add Question</button>
+      <button type="submit">Submit</button>
+    </form>
+
+    <div id="questionsContainer"></div>
+
+    <script src="addQuiz.js"></script>
+  </body>
+</html>

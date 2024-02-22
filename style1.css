@@ -16,6 +16,54 @@ html{
     font-size: 62.5%
 }
 
+/* .panel {
+    display: none;
+    /* Additional styling for the panel */
+    /* position: absolute;
+    z-index: 9999; */
+
+/* }  */
+
+
+.panel {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    /* right: 10000; */
+    z-index: 9999;
+    background-color: black; /* Set background color to black */
+    color: white; /* Set font color to white */
+    padding: 20px; /* Add padding for content */
+    height: 100%; /* Take full height */
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+}
+
+.panel h2 {
+    color: #f66962; /* Set heading color to a different color */
+    margin-bottom: 20px; /* Add some bottom margin */
+}
+
+.categories {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.categories li {
+    margin-bottom: 10px;
+}
+
+.categories a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.categories a:hover {
+    text-decoration: underline;
+}
+
+
 .sidebar{
     width: 27rem;
     height: 100vh;

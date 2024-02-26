@@ -1,27 +1,5 @@
-// INITIAL CALL FOR EXECUTION IS AT loadQuestion() FUNCTION. LINE 385.
+// INITIAL CALL FOR EXECUTION IS AT loadQuestion() FUNCTION. LINE 407.
 
-const header = document.querySelector("header");
-
-// to make the header sticky
-window.addEventListener("scroll", function () {
-  header.classList.toggle("sticky", window.scrollY > 0);
-});
-
-let sections = document.querySelectorAll("section");
-
-window.onscroll = () => {
-  sections.forEach((sec) => {
-    let top = window.scrollY;
-    let offset = sec.offsetTop - 100;
-    let height = sec.offsetHeight;
-
-    if (top >= offset && top < offset + height) {
-      sec.classList.add("show-animate");
-    } else {
-      sec.classList.remove("show-animate");
-    }
-  });
-};
 
 let HTMLquestions = [
   {
@@ -117,16 +95,50 @@ let HTMLquestions = [
 ];
 
 
-
+const header = document.querySelector("header");
+const quesBox = document.getElementById("quesBox");
+const optionInputs = document.querySelectorAll(".options");
+let sections = document.querySelectorAll("section");
 let index = 0;
 let total = HTMLquestions.length;
 let correct = 0;
 let incorrect = 0;
-const quesBox = document.getElementById("quesBox");
-const optionInputs = document.querySelectorAll(".options");
+
+let userAnswers = [];
+
+
+// to make header sticky
+window.addEventListener("scroll", function () {
+  header.classList.toggle("sticky", window.scrollY > 0);
+});
+
+
+
+window.onscroll = () => {
+  sections.forEach((sec) => {
+    let top = window.scrollY;
+    let offset = sec.offsetTop - 100;
+    let height = sec.offsetHeight;
+
+    if (top >= offset && top < offset + height) {
+      sec.classList.add("show-animate");
+    } else {
+      sec.classList.remove("show-animate");
+    }
+  });
+};
+
+
+const displayQuestionAndOptions = (questionNumber) => {
+  const data = HTMLquestions[questionNumber];
+  quesBox.innerText = `${questionNumber + 1}) ${data.question}`;
+
+  optionInputs.forEach((input, index) => {
+    input.nextElementSibling.innerText = data[String.fromCharCode(97 + index)];
+  });
+};
 
 const loadQuestions = () => {
-
   if (index === total) {
     return endQuiz();
   }
@@ -145,12 +157,61 @@ const loadQuestions = () => {
     const data = HTMLquestions[index];
     quesBox.innerText = `${index + 1}) ${data.question}`;
 
-    //below 4 lines are responsible for loading the options.
-    optionInputs[0].nextElementSibling.innerText = data.a;
-    optionInputs[1].nextElementSibling.innerText = data.b;
-    optionInputs[2].nextElementSibling.innerText = data.c;
-    optionInputs[3].nextElementSibling.innerText = data.d;
-    // console.log(data);
+    // to get the options of the question.
+    optionInputs.forEach((input, i) => {
+      input.nextElementSibling.innerText = data[String.fromCharCode(97 + i)];
+    });
+
+  } catch (error) {
+    console.error("Error in loadQuestions:", error.message);
+  }
+};
+
+const showSelectedAnswers = () => {
+  index = 0;
+  try {
+
+
+    displayQuestionAndOptions(index);
+
+    // for (let i = 0; i < HTMLquestions.length; i++) {
+    //   const questionData = HTMLquestions[i];
+    //   const radioButtons = document.getElementsByName(`question${i + 1}`);
+    //   let selectedValue = "";
+  
+      // Check which radio button is checked
+    //   for (let j = 0; j < radioButtons.length; j++) {
+    //       if (radioButtons[j].checked) {
+    //           selectedValue = radioButtons[j].value;
+              
+    //           if (selectedValue === questionData.correct) {
+    //               radioButtons[j].parentNode.style.border = "2px solid green";
+    //           } else {
+    //               radioButtons[j].parentNode.style.border = "2px solid red";
+    //           }
+    //           break;
+    //       }
+    //   }
+    // }
+  
+    optionInputs.forEach((input) => {
+      input.disabled = true;
+
+      for(let i = 0; i<HTMLquestions.length; i++){
+
+        if(userAnswers[index] === HTMLquestions[i].correct){
+          console.log("inside if condition"); 
+        
+          // input.parentNode.style.border = "2px solid green";
+        }
+      }
+      // if (input.value === userAnswers[index]) {
+      //   input.checked = true;
+      //   console.log("inside if condition");
+      //   optionInputs[index].parentNode.style.backgroundColor = `2px solid lightgreen`;
+      // }
+    });
+    // // console.log(data);
   } catch (error) {
     console.error("Error in loadQuestions:", error.message);
   }
@@ -162,14 +223,13 @@ document.getElementById("skipBtn").addEventListener("click", () => {
   if (index < total - 1) {
     const data = HTMLquestions[index];
     const num = document.getElementsByClassName("number");
+    userAnswers.push("skipped");
     Array.from(num).forEach((element, index) => {
-
       if (index === HTMLquestions.indexOf(data)) {
         element.style.backgroundColor = "skyblue";
 
         console.log("index", index);
       }
-     
     });
     // Increment the question index to move to the next question
     index++;
@@ -181,6 +241,8 @@ document.getElementById("skipBtn").addEventListener("click", () => {
 const nextQuiz = () => {
   try {
     const ans = getAnswer();
+    userAnswers.push(ans);
+    // console.log("userAnswers", userAnswers);
     if (!ans) {
       // Display an alert indicating that the user needs to select an answer
       alert(
@@ -215,10 +277,10 @@ const nextQuiz = () => {
     Array.from(num).forEach((element, index) => {
       if (index === HTMLquestions.indexOf(data)) {
         element.style.backgroundColor = "lightgreen";
-        console.log("index", index);
+        // console.log("index", index);
       }
     });
-    index++;  
+    index++;
     loadQuestions();
     return;
   } catch (error) {
@@ -245,21 +307,14 @@ const reset = () => {
   });
 };
 
-
 // to iterate on the question number.
 function selectQuestion(questionNumber) {
   var questionContainers = document.querySelectorAll(".num");
   questionContainers.forEach(function () {
     index = questionNumber;
-    const data = HTMLquestions[questionNumber];
-    quesBox.innerText = `${questionNumber + 1}) ${data.question}`;
 
-    //below 4 lines are responsible for loading the options.
-    optionInputs[0].nextElementSibling.innerText = data.a;
-    optionInputs[1].nextElementSibling.innerText = data.b;
-    optionInputs[2].nextElementSibling.innerText = data.c;
-    optionInputs[3].nextElementSibling.innerText = data.d;
-
+    displayQuestionAndOptions(questionNumber);
+    
   });
 }
 
@@ -282,23 +337,8 @@ const endQuiz = () => {
     );
     return;
   }
-
-  document.getElementById("quesBox").innerHTML = `<h2>result</h2>`;
-  document.getElementById(
-    "btn"
-  ).innerHTML = `<a href="home.html"><h5 id="k">home page</h5></a>`;
-  document.getElementById("btn").style.backgroundColor = "#008080";
-  document.getElementById("k").style.color = "white";
-  document.getElementById("box").innerHTML = `
-        <div id="end-1">
-        <h3> thankyou for participating in the quiz</h3>
-        <h2> ${correct} / ${total} are correct</h2>
-        <img src="images/img-31.png" height="100px" width="100px"/>
-        </div>
-    `;
-  document.getElementById("end-1").style.textAlign = "center";
+  showSelectedAnswers();
 };
-
 
 // to select the radio button of the corresponding row.
 function selectRadio(optionId) {
@@ -317,7 +357,6 @@ const getAnsweredQuestions = () => {
 };
 
 //initial call. all the execution starts from here.
-loadQuestions();
 
 
 const startingTime = 100; // Time limit in minutes
@@ -335,7 +374,7 @@ function updateCountdown() {
       }`;
 
       // Update local storage
-      localStorage.setItem('countdownTime', time);
+      localStorage.setItem("countdownTime", time);
 
       time--;
     } else {
@@ -355,54 +394,14 @@ function restartCountdown() {
 }
 
 // Load countdown time from local storage if available
-const storedCountdownTime = localStorage.getItem('countdownTime');
+const storedCountdownTime = localStorage.getItem("countdownTime");
 if (storedCountdownTime) {
   time = parseInt(storedCountdownTime);
 } else {
-  localStorage.setItem('countdownTime', time);
+  localStorage.setItem("countdownTime", time);
 }
 
 // Start the countdown timer
 updateCountdown();
 
-
-
-
-// const startingTime = 100; // Time limit in minutes
-// let time = startingTime * 60; // Convert minutes to seconds
-// let countdownInterval; // Interval variable for countdown timer
-
-// // Function to update countdown timer
-// function updateCountdown() {
-//   countdownInterval = setInterval(() => {
-//     if (time > 0) {
-//       const minutes = Math.floor(time / 60);
-//       const seconds = time % 60;
-//       countdown.innerHTML = `${minutes}:${
-//         seconds < 10 ? "0" + seconds : seconds
-//       }`;
-
-//       // Update local storage
-//       localStorage.setItem('countdownTime', time);
-
-//       time--;
-//     } else {
-//       clearInterval(countdownInterval);
-//       is_examover = true;
-//       // Handle the case when the time limit is reached
-//       endQuiz();
-//     }
-//   }, 1000); // Update every second
-// }
-
-// // Load countdown time from local storage if available
-// const storedCountdownTime = localStorage.getItem('countdownTime');
-// if (storedCountdownTime) {
-//   time = parseInt(storedCountdownTime);
-// } else {
-//   localStorage.setItem('countdownTime', time);
-// }
-
-// // Start the countdown timer
-// updateCountdown();
-
+loadQuestions();
